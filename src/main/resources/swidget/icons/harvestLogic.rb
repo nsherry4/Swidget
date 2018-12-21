@@ -41,15 +41,17 @@ end
 def harvestIconAtSize(path, folder, name, newname, size, fallbackSize=nil)
 
 	if File.exist?("#{path}/#{folder}/#{size}/#{name}.svg")
-		cmd = "rsvg-convert '#{path}/#{folder}/#{size}/#{name}.svg' >'./#{size}/#{newname}.png'"
-		#puts cmd
+		cmd = "rsvg-convert -w #{size} -h #{size} '#{path}/#{folder}/#{size}/#{name}.svg' >'./#{size}/#{newname}.png'"
 		`#{cmd}`
-		#`rsvg "#{path}/#{folder}/#{size}/#{name}.svg" "./#{size}/#{newname}.png"`
+		#2x hidpi
+		cmd = "rsvg-convert -w #{size*2} -h #{size*2} '#{path}/#{folder}/#{size}/#{name}.svg' >'./#{size}/#{newname}@2x.png'"
+		`#{cmd}`
 	elsif fallbackSize != nil and File.exist?("#{path}/#{folder}/#{fallbackSize}/#{name}.svg")
 		cmd = "rsvg-convert -w #{size} -h #{size} '#{path}/#{folder}/#{fallbackSize}/#{name}.svg' >'./#{size}/#{newname}.png'"
-		#puts cmd
 		`#{cmd}`
-		#`rsvg-convert -w#{size} -h#{size} "#{path}/#{folder}/#{fallbackSize}/#{name}.svg" "./#{size}/#{newname}.png"`
+		#2x hidpi
+		cmd = "rsvg-convert -w #{size*2} -h #{size*2} '#{path}/#{folder}/#{fallbackSize}/#{name}.svg' >'./#{size}/#{newname}@2x.png'"
+		`#{cmd}`
 	end
 
 end
